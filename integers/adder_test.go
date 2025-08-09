@@ -1,12 +1,20 @@
 package integers
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestAdder(t *testing.T) {
-	sum := Adder(2, 2)
+	sum := Add(2, 2)
 	expected := 4
 
 	if sum != expected {
 		t.Errorf("sum %d expected %d", sum, expected)
 	}
+}
+
+func ExampleAdd() {
+	sum := Add(2, 2)
+	fmt.Println(sum)
+	// Output: 4
 }
