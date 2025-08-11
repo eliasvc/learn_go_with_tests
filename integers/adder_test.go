@@ -1,6 +1,7 @@
 package integers
 
 import (
+	"fmt"
 	"testing"
 )
 
