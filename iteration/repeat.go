@@ -1,9 +1,13 @@
 package iteration
 
+import "strings"
+
+const repeatCount = 5
+
 func Repeat(char string) string {
-	var repeated string
-	for i := 0; i < 5; i++ {
-		repeated += char
+	var repeated strings.Builder
+	for range repeatCount {
+		repeated.WriteString(char)
 	}
-	return repeated
+	return repeated.String()
 }
