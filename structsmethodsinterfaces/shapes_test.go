@@ -27,6 +27,6 @@ func TestArea(t *testing.T) {
 
 func ExamplePerimeter() {
 	r := Rectangle{10.0, 10.0}
-	fmt.Printf("Perimeter: %.1f", Perimeter(r))
-	// Output: Perimeter: 40.0
+	fmt.Printf("%.2f", Perimeter(r))
+	// Output: 40.00
 }
