@@ -6,7 +6,8 @@ import (
 )
 
 func TestPerimeter(t *testing.T) {
-	got := Perimeter(3.0, 5.0)
+	rectangle := Rectangle{3.0, 5.0}
+	got := Perimeter(rectangle)
 	want := 16.0
 
 	if got != want {
@@ -15,7 +16,8 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
-	got := Area(10.0, 10.0)
+	rectangle := Rectangle{10.0, 10.0}
+	got := Area(rectangle)
 	want := 100.0
 
 	if got != want {
@@ -24,9 +26,7 @@ func TestArea(t *testing.T) {
 }
 
 func ExamplePerimeter() {
-	width := 10.0
-	height := 10.0
-
-	fmt.Printf("Perimeter: %.1f", Perimeter(width, height))
+	r := Rectangle{10.0, 10.0}
+	fmt.Printf("Perimeter: %.1f", Perimeter(r))
 	// Output: Perimeter: 40.0
 }
