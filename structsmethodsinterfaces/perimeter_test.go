@@ -14,6 +14,15 @@ func TestPerimeter(t *testing.T) {
 	}
 }
 
+func TestArea(t *testing.T) {
+	got := Area(10.0, 10.0)
+	want := 100.0
+
+	if got != want {
+		t.Errorf("got %0.1f want %0.1f", got, want)
+	}
+}
+
 func ExamplePerimeter() {
 	width := 10.0
 	height := 10.0
