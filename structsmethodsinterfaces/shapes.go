@@ -22,6 +22,15 @@ type Circle struct {
 	Radius float64
 }
 
+type Triangle struct {
+	Base   float64
+	Height float64
+}
+
+func (t Triangle) Area() float64 {
+	return (t.Base * t.Height) / 2
+}
+
 // Area returns the area of a circle: Pi * c.Radius**2
 func (c Circle) Area() float64 {
 	return math.Pi * math.Pow(c.Radius, 2)
