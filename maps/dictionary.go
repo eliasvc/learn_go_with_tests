@@ -12,3 +12,7 @@ func (d Dictionary) Search(key string) (string, error) {
 	}
 	return "", ErrNotFound
 }
+
+func (d Dictionary) Add(word, definition string) {
+	d[word] = definition
+}
