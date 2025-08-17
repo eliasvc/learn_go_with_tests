@@ -27,24 +27,49 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	dictionary.Add("add", "testing adding a word")
 
-	got, err := dictionary.Search("add")
-	want := "testing adding a word"
+	t.Run("unknown word", func(t *testing.T) {
+		dictionary := Dictionary{}
+		dictionary.Add("add", "testing adding a word")
 
+		got, err := dictionary.Search("add")
+		want := "testing adding a word"
+
+		if err != nil {
+			t.Fatal("unexpected error adding word:", err)
+		}
+
+		assertStrings(t, got, want)
+	})
+
+	t.Run("known word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{word: definition}
+		err := dictionary.Add(word, "new test")
+
+		assertError(t, err, ErrWordExists)
+		assertDefinition(t, dictionary, word, definition)
+
+	})
+}
+
+func assertDefinition(t testing.TB, dictionary Dictionary, word, definition string) {
+	t.Helper()
+
+	got, err := dictionary.Search(word)
 	if err != nil {
-		t.Fatal("unexpected error adding word:", err)
+		t.Fatalf("unexpected error searching for word %q: %s", word, err)
 	}
 
-	assertStrings(t, got, want)
+	assertStrings(t, got, definition)
 }
 
 func assertStrings(t testing.TB, got, want string) {
 	t.Helper()
 
 	if got != want {
-		t.Errorf("got %q want %q given, %q", got, want, "test")
+		t.Errorf("got %q want %q", got, want)
 	}
 }
 
