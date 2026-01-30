@@ -18,9 +18,9 @@ func TestSum(t *testing.T) {
 	})
 }
 
-func TestSumAll(t *testing.T) {
-	got := SumAll([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
-	want := []int{6, 15}
+func TestSumAllTails(t *testing.T) {
+	got := SumAllTails([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
+	want := []int{5, 14}
 
 	if !slices.Equal(got, want) {
 		t.Errorf("got %v want %v", got, want)
@@ -29,6 +29,6 @@ func TestSumAll(t *testing.T) {
 
 func BenchmarkSumAll(b *testing.B) {
 	for b.Loop() {
-		SumAll([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
+		SumAllTails([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
 	}
 }
