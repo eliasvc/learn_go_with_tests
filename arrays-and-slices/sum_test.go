@@ -1,7 +1,7 @@
 package main
 
 import (
-	"slices"
+	"reflect"
 	"testing"
 )
 
@@ -19,12 +19,27 @@ func TestSum(t *testing.T) {
 }
 
 func TestSumAllTails(t *testing.T) {
-	got := SumAllTails([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
-	want := []int{5, 14}
 
-	if !slices.Equal(got, want) {
-		t.Errorf("got %v want %v", got, want)
+	checkSums := func(t testing.TB, got, want []int) {
+		t.Helper()
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
 	}
+
+	t.Run("sum tails of some slices", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2, 3}, []int{1, 2, 3, 4, 5})
+		want := []int{5, 14}
+
+		checkSums(t, got, want)
+	})
+
+	t.Run("safely sum when empty slices are used", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{1, 2, 3})
+		want := []int{0, 5}
+
+		checkSums(t, got, want)
+	})
 }
 
 func BenchmarkSumAll(b *testing.B) {
