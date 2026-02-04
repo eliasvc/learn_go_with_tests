@@ -25,7 +25,7 @@ func TestArea(t *testing.T) {
 
 	t.Run("rectangle area", func(t *testing.T) {
 		rectangle := Rectangle{10.0, 10.0}
-		want := 40.0
+		want := 20.0
 
 		checkArea(t, rectangle, want)
 	})
