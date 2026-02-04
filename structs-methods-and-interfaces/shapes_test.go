@@ -17,9 +17,9 @@ func TestArea(t *testing.T) {
 		shape Shape
 		want  float64
 	}{
-		{Rectangle{10.0, 10.0}, 20.0},
-		{Circle{10.0}, 314.1592653589793},
-		{Triangle{12, 6}, 36.0},
+		{shape: Rectangle{Width: 10.0, Height: 10.0}, want: 20.0},
+		{shape: Circle{Radius: 10.0}, want: 314.1592653589793},
+		{shape: Triangle{Base: 12, Height: 6}, want: 36.0},
 	}
 
 	for _, tt := range areaTests {
