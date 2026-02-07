@@ -16,16 +16,14 @@ func TestSearch(t *testing.T) {
 
 	t.Run("unknown word", func(t *testing.T) {
 		_, err := dictionary.Search("unknown")
-		want := "could not find the word you were looking for"
 
 		if err == nil {
 			t.Fatal("Expected error but didn't get one")
 		}
 
-		if err.Error() != want {
-			t.Errorf("expected error %q, but got %q", want, err.Error())
+		if err != ErrNotFound {
+			t.Errorf("expected error %q, but got %q", ErrNotFound, err)
 		}
-
 	})
 
 }
