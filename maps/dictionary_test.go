@@ -12,6 +12,8 @@ func TestSearch(t *testing.T) {
 		if got != want {
 			t.Errorf("got %q, but want %q given %q", got, want, "test")
 		}
+
+		assertDefinition(t, got, want, "test")
 	})
 
 	t.Run("unknown word", func(t *testing.T) {
@@ -39,8 +41,13 @@ func TestAdd(t *testing.T) {
 		t.Fatalf("expected no error, but got %q", err)
 	}
 
-	if want != got {
+	assertDefinition(t, got, want, word)
+}
+
+func assertDefinition(t testing.TB, got, want, word string) {
+	t.Helper()
+
+	if got != want {
 		t.Errorf("got %q, but want %q given %q", got, want, word)
 	}
-
 }
