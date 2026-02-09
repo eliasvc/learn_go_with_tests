@@ -25,5 +25,22 @@ func TestSearch(t *testing.T) {
 			t.Errorf("expected error %q, but got %q", ErrNotFound, err)
 		}
 	})
+}
+
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	word := "new"
+	want := "new word"
+
+	dictionary.Add(word, want)
+
+	got, err := dictionary.Search(word)
+	if err != nil {
+		t.Fatalf("expected no error, but got %q", err)
+	}
+
+	if want != got {
+		t.Errorf("got %q, but want %q given %q", got, want, word)
+	}
 
 }
