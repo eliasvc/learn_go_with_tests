@@ -30,18 +30,35 @@ func TestSearch(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	word := "new"
-	want := "new word"
+	t.Run("non-existing word", func(t *testing.T) {
+		dictionary := Dictionary{}
+		word := "new"
+		want := "new word"
 
-	dictionary.Add(word, want)
+		dictionary.Add(word, want)
 
-	got, err := dictionary.Search(word)
-	if err != nil {
-		t.Fatalf("expected no error, but got %q", err)
-	}
+		got, err := dictionary.Search(word)
+		assertNoError(t, err)
+		assertDefinition(t, got, want, word)
+	})
 
-	assertDefinition(t, got, want, word)
+	t.Run("existing word", func(t *testing.T) {
+		dictionary := Dictionary{"test": "this is just a test"}
+
+		err := dictionary.Add("test", "new test definition")
+		if err == nil {
+			t.Fatal("expected error, but didn't get one")
+		}
+
+		if err != ErrWordExists {
+			t.Fatalf("expected error %q, but got %q", ErrWordExists, err)
+		}
+
+		// check definition wasn't changed
+		currentDefintion, err := dictionary.Search("test")
+		assertNoError(t, err)
+		assertDefinition(t, currentDefintion, "this is just a test", "test")
+	})
 }
 
 func assertDefinition(t testing.TB, got, want, word string) {
@@ -49,5 +66,13 @@ func assertDefinition(t testing.TB, got, want, word string) {
 
 	if got != want {
 		t.Errorf("got %q, but want %q given %q", got, want, word)
+	}
+}
+
+func assertNoError(t testing.TB, got error) {
+	t.Helper()
+
+	if got != nil {
+		t.Errorf("expected no error, but got %q", got)
 	}
 }
