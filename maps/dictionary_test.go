@@ -35,7 +35,10 @@ func TestAdd(t *testing.T) {
 		word := "new"
 		want := "new word"
 
-		dictionary.Add(word, want)
+		err := dictionary.Add(word, want)
+		if err != nil {
+			t.Fatalf("unexpected error: %q", err)
+		}
 
 		got, err := dictionary.Search(word)
 		assertNoError(t, err)
