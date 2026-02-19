@@ -37,7 +37,7 @@ func TestAdd(t *testing.T) {
 
 		err := dictionary.Add(word, want)
 		if err != nil {
-			t.Fatalf("unexpected error: %q", err)
+			t.Fatalf("unexpected error %q", err)
 		}
 
 		got, err := dictionary.Search(word)
@@ -62,6 +62,19 @@ func TestAdd(t *testing.T) {
 		assertNoError(t, err)
 		assertDefinition(t, currentDefintion, "this is just a test", "test")
 	})
+}
+
+func TestUpdate(t *testing.T) {
+	word := "test"
+	definition := "this is just a test"
+	newDefinition := "new definition"
+
+	dictionary := Dictionary{word: definition}
+	dictionary.Update(word, newDefinition)
+
+	got, err := dictionary.Search(word)
+	assertNoError(t, err)
+	assertDefinition(t, got, newDefinition, word)
 }
 
 func assertDefinition(t testing.TB, got, want, word string) {
