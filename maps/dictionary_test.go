@@ -94,6 +94,44 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
+func TestDelete(t *testing.T) {
+	t.Run("word exists", func(t *testing.T) {
+		word := "test"
+		dictionary := Dictionary{word: "this is just a test"}
+
+		err := dictionary.Delete(word)
+
+		if err != nil {
+			t.Fatalf("expected no error, but got %q", err)
+		}
+
+		_, err = dictionary.Search(word)
+
+		if err == nil {
+			t.Fatalf("expected error %q, but got none", ErrWordDoesNotExist)
+		}
+
+		if err != ErrNotFound {
+			t.Errorf("expected error %q, but got %q", ErrNotFound, err)
+		}
+	})
+
+	t.Run("word doesn't exist", func(t *testing.T) {
+		word := "test"
+		dictionary := Dictionary{}
+
+		err := dictionary.Delete(word)
+
+		if err == nil {
+			t.Fatalf("expected error %q, but got none", ErrWordDoesNotExist)
+		}
+
+		if err != ErrWordDoesNotExist {
+			t.Errorf("expected error %q, but got %q", ErrWordDoesNotExist, err)
+		}
+	})
+}
+
 func assertDefinition(t testing.TB, got, want, word string) {
 	t.Helper()
 

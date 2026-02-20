@@ -38,3 +38,11 @@ func (d Dictionary) Update(word, newDefinition string) error {
 
 	return ErrWordDoesNotExist
 }
+
+func (d Dictionary) Delete(word string) error {
+	if _, ok := d[word]; ok {
+		delete(d, word)
+		return nil
+	}
+	return ErrWordDoesNotExist
+}
