@@ -19,13 +19,7 @@ func TestSearch(t *testing.T) {
 	t.Run("unknown word", func(t *testing.T) {
 		_, err := dictionary.Search("unknown")
 
-		if err == nil {
-			t.Fatal("Expected error but didn't get one")
-		}
-
-		if err != ErrNotFound {
-			t.Errorf("expected error %q, but got %q", ErrNotFound, err)
-		}
+		assertError(t, err, ErrNotFound)
 	})
 }
 
@@ -49,13 +43,7 @@ func TestAdd(t *testing.T) {
 		dictionary := Dictionary{"test": "this is just a test"}
 
 		err := dictionary.Add("test", "new test definition")
-		if err == nil {
-			t.Fatal("expected error, but didn't get one")
-		}
-
-		if err != ErrWordExists {
-			t.Fatalf("expected error %q, but got %q", ErrWordExists, err)
-		}
+		assertError(t, err, ErrWordExists)
 
 		// check definition wasn't changed
 		currentDefintion, err := dictionary.Search("test")
@@ -83,14 +71,7 @@ func TestUpdate(t *testing.T) {
 		dictionary := Dictionary{}
 		err := dictionary.Update("test", "this is just a test")
 
-		if err == nil {
-			t.Fatalf("expected error %q, but got none", ErrWordDoesNotExist)
-		}
-
-		if err != ErrWordDoesNotExist {
-			t.Errorf("expected error %q, but got %q", ErrWordDoesNotExist, err)
-		}
-
+		assertError(t, err, ErrWordDoesNotExist)
 	})
 }
 
@@ -106,14 +87,7 @@ func TestDelete(t *testing.T) {
 		}
 
 		_, err = dictionary.Search(word)
-
-		if err == nil {
-			t.Fatalf("expected error %q, but got none", ErrWordDoesNotExist)
-		}
-
-		if err != ErrNotFound {
-			t.Errorf("expected error %q, but got %q", ErrNotFound, err)
-		}
+		assertError(t, err, ErrNotFound)
 	})
 
 	t.Run("word doesn't exist", func(t *testing.T) {
@@ -121,14 +95,7 @@ func TestDelete(t *testing.T) {
 		dictionary := Dictionary{}
 
 		err := dictionary.Delete(word)
-
-		if err == nil {
-			t.Fatalf("expected error %q, but got none", ErrWordDoesNotExist)
-		}
-
-		if err != ErrWordDoesNotExist {
-			t.Errorf("expected error %q, but got %q", ErrWordDoesNotExist, err)
-		}
+		assertError(t, err, ErrWordDoesNotExist)
 	})
 }
 
@@ -137,6 +104,16 @@ func assertDefinition(t testing.TB, got, want, word string) {
 
 	if got != want {
 		t.Errorf("got %q, but want %q given %q", got, want, word)
+	}
+}
+
+func assertError(t testing.TB, got, want error) {
+	if got == nil {
+		t.Fatalf("expected error %q, but got none", want)
+	}
+
+	if got != want {
+		t.Errorf("expected error %q, but got %q", want, got)
 	}
 }
 
