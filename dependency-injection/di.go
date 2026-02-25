@@ -1,9 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
+	"io"
 )
-func Greet(buf *bytes.Buffer, name string) {
-	fmt.Fprintf(buf, "Hello, %s", name)	
+func Greet(writer io.Writer, name string) {
+	fmt.Fprintf(writer, "Hello, %s", name)	
 }
