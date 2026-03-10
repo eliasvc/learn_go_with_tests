@@ -3,10 +3,16 @@ package concurrency
 import (
 	"reflect"
 	"testing"
+	"time"
 )
 
 func mockWebsiteChecker(url string) bool {
 	return url != "fakettp://bunkurl.arg"
+}
+
+func slowStubWebsiteChecker(_ string) bool {
+	time.Sleep(20 * time.Millisecond)
+	return true
 }
 
 func TestCheckWebsites(t *testing.T) {
@@ -29,5 +35,16 @@ func TestCheckWebsites(t *testing.T) {
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("wanted %v, but got %v", want, got)
 	}
+}
 
+func BenchmarkWebsiteChecker(b *testing.B) {
+	urls := make([]string, 100)
+
+	for i := range 100 {
+		urls[i] = "a url"
+	}
+
+	for b.Loop() {
+		CheckWebsites(slowStubWebsiteChecker, urls)
+	}
 }
