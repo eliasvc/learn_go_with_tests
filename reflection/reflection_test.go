@@ -52,6 +52,21 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"Chris", "London"},
 		},
+		{
+			"struct pointer",
+			&struct {
+				Name string
+			}{"Chris"},
+			[]string{"Chris"},
+		},
+		{
+			"slices",
+			[]Profile{
+				{33, "London"},
+				{22, "Denmark"},
+			},
+			[]string{"London", "Denmark"},
+		},
 	}
 	for _, test := range cases {
 		t.Run(test.Name, func(t *testing.T) {
