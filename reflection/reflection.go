@@ -20,5 +20,9 @@ func walk(x any, fn func(string)) {
 		for i := 0; i < val.NumField(); i++ {
 			walk(val.Field(i).Interface(), fn)
 		}
+	case reflect.Map:
+		for _, k := range val.MapKeys() {
+			walk(val.MapIndex(k).Interface(), fn)
+		}
 	}
 }
