@@ -2,6 +2,7 @@ package main
 
 import (
 	"reflect"
+	"slices"
 	"testing"
 )
 
@@ -74,14 +75,6 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"London"},
 		},
-		{
-			"map",
-			map[string]string{
-				"Name": "Chris",
-				"City": "London",
-			},
-			[]string{"Chris", "London"},
-		},
 	}
 	for _, test := range cases {
 		t.Run(test.Name, func(t *testing.T) {
@@ -95,4 +88,27 @@ func TestWalk(t *testing.T) {
 			}
 		})
 	}
+
+	t.Run("with maps", func(t *testing.T) {
+		m := map[string]string{
+			"Name":     "Chris",
+			"LastName": "Foo",
+			"City":     "London",
+			"Age":      "33",
+			"Country":  "UK",
+		}
+
+		var got []string
+
+		walk(m, func(input string) {
+			got = append(got, input)
+		})
+
+		for _, v := range m {
+			if !slices.Contains(got, v) {
+				t.Errorf("expected %v to contain %q, but it didn't", got, v)
+			}
+		}
+
+	})
 }
