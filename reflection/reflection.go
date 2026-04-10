@@ -12,7 +12,7 @@ func walk(x any, fn func(string)) {
 	switch val.Kind() {
 	case reflect.String:
 		fn(val.String())
-	case reflect.Slice:
+	case reflect.Slice, reflect.Array:
 		for i := 0; i < val.Len(); i++ {
 			walk(val.Index(i).Interface(), fn)
 		}
