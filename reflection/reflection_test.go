@@ -109,6 +109,25 @@ func TestWalk(t *testing.T) {
 				t.Errorf("expected %v to contain %q, but it didn't", got, v)
 			}
 		}
+	})
 
+	t.Run("with channels", func(t *testing.T) {
+		aChannel := make(chan Profile)
+
+		go func() {
+			aChannel <- Profile{33, "London"}
+			aChannel <- Profile{23, "Denmark"}
+			close(aChannel)
+		}()
+
+		want := []string{"London", "Denmark"}
+		var got []string
+		walk(aChannel, func(input string) {
+			got = append(got, input)
+		})
+
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("got %v, want %v", got, want)
+		}
 	})
 }
